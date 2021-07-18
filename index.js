@@ -23,7 +23,12 @@ const switchTurns = () =>{
 const checkWin =()=>{
 	for (let i=0; i < winningCombination.length; i++){
 		if(gameBoard[winningCombination[i][0]]=== turn && gameBoard[winningCombination[i][1]]=== turn && gameBoard[winningCombination[i][2]]=== turn){
-			document.getElementById("result").innerHTML = `${turn} won`
+			document.getElementById("result").innerHTML = `${turn} Wins`;
+			if (turn === "X"){
+				document.getElementById("result").classList.toggle("red", true)
+			}else{
+				document.getElementById("result").classList.toggle("blue", true)
+			}
 			active = false;
 			return
 		}
@@ -33,11 +38,12 @@ const checkWin =()=>{
 	gameBoard.forEach((box)=>{
 		if(typeof box === "string"){
 			count++;
-			console.log(count)
+			
 		}
 	})
 	if (count === 9){
 		document.getElementById("result").innerHTML = "Draw";
+		active = false;
 	}
 	// count = 0;
 }
@@ -51,6 +57,12 @@ const makeMove = (index) => {
 		return
 	}
 	gameBoard[index] = turn;
+	if (turn === "X"){
+		document.getElementById(index).classList.toggle("red", true)
+	}else{
+		document.getElementById(index).classList.toggle("blue", true)
+	}
+	
 	document.getElementById(index).innerHTML = turn;
 	checkWin()
 	switchTurns()
@@ -63,7 +75,12 @@ const restart=()=>{
 	let boxes = document.getElementsByClassName("box");
 	for(let i=0; i<boxes.length; i++){
 		boxes[i].innerHTML = ""
+		boxes[i].classList.toggle("blue", false)
+		boxes[i].classList.toggle("red", false)
 	}
-	document.getElementById("result").innerHTML= " "
+
+	document.getElementById("result").innerHTML= " ";
+	document.getElementById("result").classList.toggle("blue", false);
+	document.getElementById("result").classList.toggle("red", false)
 	active = true
 }
